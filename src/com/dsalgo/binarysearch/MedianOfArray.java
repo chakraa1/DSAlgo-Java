@@ -36,13 +36,13 @@ public class MedianOfArray {
 			int cut1 = (low + high) / 2;
 			int cut2 = (smaller_array_length + bigger_array_length + 1) / 2 - cut1;
 
-			// if cut1 is 0 it means nothing is there on left side.Set l1 to -INF for
-			// if r1 is length of input then there is nothing on right side.Set r1 to +INF
+			// if cut1 is 0 it means nothing is there on left side.Set l1 to -INF
+			// if cut2 is length of input then there is nothing on right side.Set r1 to +INF
 			
 			int l1 = (cut1 == 0) ? Integer.MIN_VALUE : input1[cut1 - 1];
-			int r1 = (cut1 == smaller_array_length) ? Integer.MAX_VALUE : input1[cut1];
-
 			int l2 = (cut2 == 0) ? Integer.MIN_VALUE : input2[cut2 - 1];
+			
+			int r1 = (cut1 == smaller_array_length) ? Integer.MAX_VALUE : input1[cut1];
 			int r2 = (cut2 == bigger_array_length) ? Integer.MAX_VALUE : input2[cut2];
 
 			if (l1 <= r2 && l2 <= r1) {

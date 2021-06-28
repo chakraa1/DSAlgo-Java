@@ -26,39 +26,39 @@ public class MedianOfArray {
 		if (input1.length > input2.length) {
 			return findMedianSortedArrays(input2, input1);
 		}
-		int x = input1.length;
-		int y = input2.length;
+		int smaller_array_length = input1.length;
+		int bigger_array_length = input2.length;
 
 		int low = 0;
-		int high = x;
+		int high = smaller_array_length;  
 		while (low <= high) {
-			int partitionX = (low + high) / 2;
-			int partitionY = (x + y + 1) / 2 - partitionX;
+			// if we can find how many elements are coming from array 1 then we can easily find how many of them are from 2nd array
+			int cut1 = (low + high) / 2;
+			int cut2 = (smaller_array_length + bigger_array_length + 1) / 2 - cut1;
 
-			// if partitionX is 0 it means nothing is there on left side. Use -INF for
-			// maxLeftX
-			// if partitionX is length of input then there is nothing on right side. Use
-			// +INF for minRightX
-			int maxLeftX = (partitionX == 0) ? Integer.MIN_VALUE : input1[partitionX - 1];
-			int minRightX = (partitionX == x) ? Integer.MAX_VALUE : input1[partitionX];
+			// if cut1 is 0 it means nothing is there on left side.Set l1 to -INF for
+			// if r1 is length of input then there is nothing on right side.Set r1 to +INF
+			
+			int l1 = (cut1 == 0) ? Integer.MIN_VALUE : input1[cut1 - 1];
+			int r1 = (cut1 == smaller_array_length) ? Integer.MAX_VALUE : input1[cut1];
 
-			int maxLeftY = (partitionY == 0) ? Integer.MIN_VALUE : input2[partitionY - 1];
-			int minRightY = (partitionY == y) ? Integer.MAX_VALUE : input2[partitionY];
+			int l2 = (cut2 == 0) ? Integer.MIN_VALUE : input2[cut2 - 1];
+			int r2 = (cut2 == bigger_array_length) ? Integer.MAX_VALUE : input2[cut2];
 
-			if (maxLeftX <= minRightY && maxLeftY <= minRightX) {
+			if (l1 <= r2 && l2 <= r1) {
 				// We have partitioned array at correct place
 				// Now get max of left elements and min of right elements to get the median in
 				// case of even length combined array size
 				// or get max of left for odd length combined array size.
-				if ((x + y) % 2 == 0) {
-					return ((double) Math.max(maxLeftX, maxLeftY) + Math.min(minRightX, minRightY)) / 2;
+				if ((smaller_array_length + bigger_array_length) % 2 == 0) {
+					return ((double) Math.max(l1, l2) + Math.min(r1, r2)) / 2;
 				} else {
-					return (double) Math.max(maxLeftX, maxLeftY);
+					return (double) Math.max(l1, l2);
 				}
-			} else if (maxLeftX > minRightY) { // we are too far on right side for partitionX. Go on left side.
-				high = partitionX - 1;
+			} else if (l1 > r2) { // we are too far on right side for partitionX. Go on left side.
+				high = cut1 - 1;
 			} else { // we are too far on left side for partitionX. Go on right side.
-				low = partitionX + 1;
+				low = cut1 + 1;
 			}
 		}
 

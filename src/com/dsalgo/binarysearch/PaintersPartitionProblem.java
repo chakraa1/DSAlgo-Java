@@ -58,27 +58,25 @@ Output 2:
 */
 import java.util.*;
 
+/*
+ * Complexity O(n) [For calculating max size of array list at L# 75] + n*Log n (For binary search)
+*/
 class PaintersPartitionProblem {
-	ArrayList<Integer> C;
+	ArrayList<Integer> LIST_OF_BOARD_LENGTHS;
 
-	public int minTime(int A, int B, ArrayList<Integer> C) {
+	public int minTime(int MAX_PAINTERS_AVAILBLE, ArrayList<Integer> LIST_OF_BOARD_LENGTHS) {
+		this.LIST_OF_BOARD_LENGTHS=LIST_OF_BOARD_LENGTHS;
 
-		this.C = new ArrayList<>();
+		int lo = Collections.max(LIST_OF_BOARD_LENGTHS); // Min time will be when each board is assigned to different worker
 
-		for (Integer integer : C) {
-			this.C.add(B * integer); // We change the C array to hold time taken to paint each board
-		}
+		int hi = LIST_OF_BOARD_LENGTHS.stream().mapToInt(i -> i).sum(); // Max time will be when there is one worker
 
-		int lo = Collections.max(this.C); // Min time will be when each board is assigned to different worker
-
-		int hi = this.C.stream().mapToInt(i -> i).sum(); // Max time will be when there is one worker
-
-		if (predicate(lo, A))
+		if (predicate(lo, MAX_PAINTERS_AVAILBLE))
 			return lo;
 
-		while (lo < hi - 1) {
+		while (lo < hi - 1) { // Why hi -1 , because it's a combination of F|T sequence that we're trying to find.Please refer lecture 2 - video at 1:48 minutes 
 			int mid = (lo + hi) / 2;
-			if (predicate(mid, A))
+			if (predicate(mid, MAX_PAINTERS_AVAILBLE))
 				hi = mid;
 			else
 				lo = mid;
@@ -93,30 +91,29 @@ class PaintersPartitionProblem {
 	 * is max_time
 	 */
 	private boolean predicate(int max_time, int A) {
-		int num_workers = numWorkers(max_time);
-		return num_workers <= A;
+		int num_painters = numOfAllocablePainters(max_time);
+		return num_painters <= A;
 	}
 
 	/*
-	 * numWorkers returns the minimum no of workers needed to paint all boards such
-	 * that no worker works more than max_time
+	 * numOfAllocablePainters returns the minimum no of painters needed to paint all boards such
+	 * that no painter works more than max_time i.e. mid value of min to max value
 	 */
-	private int numWorkers(int max_time) {
-		// We do a greedy job allotment. Try giving the current worker as much as we can
-		// and the use a new worker.
-		int num_worker = 1;
+	private int numOfAllocablePainters(int max_time) {
+		// We do a greedy job allotment. Try giving the current painter as much work as possible and then allocate a new painter.
+		int painters = 1;
 		int curr_time = 0;
-		for (Integer integer : this.C) {
-			if ((curr_time + integer) <= max_time) {
-				// Current worker can paint this board
+		for (Integer integer : this.LIST_OF_BOARD_LENGTHS) {
+			if ((curr_time + integer) <= max_time) { // Max time is new new mid value of the binary search
+				// Condition 1 - Current painter can still take more work
 				curr_time += integer;
 			} else {
-				// Current worker cannot take this board. We need to use a new worker
-				num_worker += 1;
-				curr_time = integer; // The new worker will paint this board
+				// Condition 2 - Current painter CAN'T take more work. We need to allocate a new painter
+				painters += 1;
+				curr_time = integer; // The new painter will paint this board
 			}
 		}
-		return num_worker;
+		return painters;
 	}
 	
 	public static void main(String[] args) {
@@ -144,7 +141,7 @@ class PaintersPartitionProblem {
 		
 		
 		PaintersPartitionProblem sol = new PaintersPartitionProblem();
-		System.out.println(sol.minTime(A, B, C));
+		System.out.println(sol.minTime(A, C) * B);
 		
 	}
 }

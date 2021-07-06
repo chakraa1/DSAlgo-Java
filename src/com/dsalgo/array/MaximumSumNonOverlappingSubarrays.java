@@ -105,7 +105,9 @@ public class MaximumSumNonOverlappingSubarrays {
 		}
 
 		/*
-		 * L -[0,i-1] M -[i,j-1] j=i+k-1; R -[j+1(i.e)i+k,n]
+		 * L -> [0,i-1] 
+		 * M -> [i,j-1] j=i+k-1;
+		 * R -> [j+1(i.e)i+k,n]
 		 */
 		int ans = 0;
 		/*

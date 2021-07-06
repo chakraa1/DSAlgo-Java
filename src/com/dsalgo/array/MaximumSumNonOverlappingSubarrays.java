@@ -80,7 +80,6 @@ public class MaximumSumNonOverlappingSubarrays {
 		
 		/* 
 		 * Forming max_l array
-		 * why it has to be iterated till i>=0
 		 *
 		*/
 		for (int i = k; i < n; i++) {

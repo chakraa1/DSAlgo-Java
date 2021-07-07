@@ -35,17 +35,11 @@ import java.util.Arrays;
  * 
  * Input - [1,2,1,2,6,7,5,1] , sub-array size k=2
  * 
- * i=1 L= [1,2] , M=[1,2] R=[6,7,5,1] --> [6,7] , [7,5] , [5,1] : Max sum - 3(L)
- * + 3(M) + 13(R) =19 i=2 L= [1,2,1] --> [1,2] , [2,1] , M=[2,6] R=[7,5,1] -->
- * [7,5] , [5,2] : Max sum - 3(L) + 8(M) + 12(R) =23 i=3 L= [1,2,1,2] --> [1,2]
- * , [2,1] [1,2] , M=[6,7] R=[5,1] : Max sum - 3(L) + 13(M) + 6(R) =22
+ * i=1 L= [1,2] , M=[1,2] R=[6,7,5,1] --> [6,7] , [7,5] , [5,1] : Max sum - 3(L) + 3(M) + 13(R) =19 
+ * i=2 L= [1,2,1] --> [1,2] , [2,1] , M=[2,6] R=[7,5,1] --> [7,5] , [5,2] : Max sum - 3(L) + 8(M) + 12(R) =23 
+ * i=3 L= [1,2,1,2] --> [1,2] , [2,1] [1,2] , M=[6,7] R=[5,1] : Max sum - 3(L) + 13(M) + 6(R) =22
  * 
  * Answer - Max(19,23,22) = 23
- * 
- * n - length of the input array k - given sub-array size i - starting index of
- * mid sub-array j - starting index of right sub-array
- * 
- * Step 2 - L -[0,i-1] M -[i,j-1] j=i+k-1; R -[j+1(i.e)i+k,n]
  * 
  */
 
@@ -104,11 +98,6 @@ public class MaximumSumNonOverlappingSubarrays {
 			max_r[i] = Math.max(max_r[i], prefix_sum[i + k - 1] - (i > 0 ? prefix_sum[i - 1] : 0));
 		}
 
-		/*
-		 * L -> [0,i-1] 
-		 * M -> [i,j-1] j=i+k-1;
-		 * R -> [j+1(i.e)i+k,n]
-		 */
 		int ans = 0;
 		/*
 		 * If we fix the middle element in range [i,i+k-1] then max of 3 non overlapping

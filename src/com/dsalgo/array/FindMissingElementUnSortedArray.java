@@ -2,6 +2,9 @@ package com.dsalgo.array;
 
 import java.util.Arrays;
 
+/*
+ * Problem statement - https://www.geeksforgeeks.org/find-the-missing-number/
+ * */
 public class FindMissingElementUnSortedArray {
 
 	private int findMissingElement(int[] arr, int n, int search_element) {
@@ -39,6 +42,7 @@ public class FindMissingElementUnSortedArray {
 
 	public static void main(String[] args) {
 		int[] a = { 1, 2, 4, 6, 3, 7, 8 };
+		//int[] a = {1, 2, 3, 5};
 		int n = a.length;
 		System.out.println(Arrays.toString(a));
 		FindMissingElementUnSortedArray sol = new FindMissingElementUnSortedArray();

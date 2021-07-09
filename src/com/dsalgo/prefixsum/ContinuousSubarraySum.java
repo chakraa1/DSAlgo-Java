@@ -7,6 +7,23 @@ import java.util.HashMap;
  * 
  * Problem statement - https://leetcode.com/problems/continuous-subarray-sum/
  */
+
+
+/*
+ * Find if there exists a subarray of length at least 2 such that the sum of that subarray is divisible by k
+ *
+ * sum of a range [a, b] : prefix[b] - prefix[a-1]
+ * sum % k : (prefix[b] - prefix[a-1]) % k;
+ * m and n are any integers (m-n) is divisible by k
+ * m-n = k*q, m = k*q1 + r1 , n = k*q2 + r2
+ * m-n = k*(q1-q2) + (r1-r2) = k*q
+ * or r1-r2 = 0 or r1 = r2
+ * m-n is divisible by k if m%k = n%k
+ *
+ * sum of range [a, b] is divisible by k iff prefix[b]%k = prefix[a-1]%k
+ *
+ * */
+
 public class ContinuousSubarraySum {
 
 	private int[] getRemainderOfPrefixSum(int[] input, int n, int k) {

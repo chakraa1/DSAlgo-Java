@@ -21,19 +21,24 @@ import java.util.HashMap;
  * m-n is divisible by k if m%k = n%k
  *
  * sum of range [a, b] is divisible by k iff prefix[b]%k = prefix[a-1]%k
- *
+ * Hence we've to find the index where remainders are same
  * */
 
 public class ContinuousSubarraySum {
 
 	private int[] getRemainderOfPrefixSum(int[] input, int n, int k) {
-
-		int[] remainder = new int[n];
-		remainder[0] = input[0];
-		remainder[0] %= k;
+		
+		int[] prefix_sum = new int[n];
+		prefix_sum[0]=input[0];
 		for (int i = 1; i < n; i++) {
-			remainder[i] = remainder[i - 1] + input[i];
-			remainder[i] %=k;
+			prefix_sum[i] = prefix_sum[i-1] + input[i];
+		}
+		
+		System.out.println("prefix sum array --> " + Arrays.toString(prefix_sum));
+		
+		int[] remainder = new int[n];
+		for (int i = 0; i < n; i++) {
+			if(k > 0 ) remainder[i]= prefix_sum[i]%k;
 		}
 
 		System.out.println("remainder array --> " + Arrays.toString(remainder));
@@ -45,8 +50,13 @@ public class ContinuousSubarraySum {
 		int [] remainders=getRemainderOfPrefixSum(input,n, k);
 		HashMap<Integer, Integer> remainderToIndexMap= new HashMap<>();
 		
-		for (int i = 1; i < n; i++) {
-			if(remainderToIndexMap.get(remainders[i]) != null && remainderToIndexMap.get(remainders[i]) > 0) {
+		for (int i = 0; i < n; i++) {
+			/*
+			 * Checking whether same remainder found earlier or not
+			 * If found that means , they are equal 
+			 * Hence a sub array exists
+			 * */
+			if(remainderToIndexMap.containsKey(remainders[i])) {
 				return true;
 			}else {
 				remainderToIndexMap.put(remainders[i], i);
@@ -59,14 +69,40 @@ public class ContinuousSubarraySum {
 
 	}
 
+	private int [] findRangeOfSubarrayIfExists(int[] input, int n, int k) {
+		int [] remainders=getRemainderOfPrefixSum(input,n, k);
+		HashMap<Integer, Integer> remainderToIndexMap= new HashMap<>();
+		
+		for (int i = 1; i < n; i++) {
+			/*
+			 * Checking whether same remainder found earlier or not
+			 * If found that means , they are equal 
+			 * Hence a sub-array exists
+			 * */
+			if(remainderToIndexMap.containsKey(remainders[i])) {
+				int[] matched_subarray= new int[2];
+				matched_subarray[1]=input[i+1];
+				matched_subarray[0]=input[remainderToIndexMap.get(remainders[i])];
+				return matched_subarray;
+			}else {
+				remainderToIndexMap.put(remainders[i], i);
+			}
+		}
+		
+		remainderToIndexMap=null; 
+		
+		return null;
+
+	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		int [] arr= {23,2,4,6,7}; int k=6;
+		int [] arr= {23,2,6,4,7}; int k=6;
+		//int [] arr= {23,2,4,6,7}; int k=6;
 		//int[] arr = { 23, 2, 6, 4, 7 };int k = 13;
-
+		System.out.println("Input array --> "+Arrays.toString(arr));
 		ContinuousSubarraySum sol = new ContinuousSubarraySum();
-		System.out.println(" result --> " + sol.doesSubarrayExists(arr, arr.length, k));
+		System.out.println("doesSubarrayExists --> " + sol.doesSubarrayExists(arr, arr.length, k));
+		System.out.println("Matched sub array start and end element --> " + Arrays.toString(sol.findRangeOfSubarrayIfExists(arr, arr.length, k)));
 
 	}
 

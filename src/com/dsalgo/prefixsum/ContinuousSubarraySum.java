@@ -68,6 +68,40 @@ public class ContinuousSubarraySum {
 		return false;
 
 	}
+	
+	private boolean doesSubarrayExistsWithoutHashmap(int[] input, int n, int k) {
+		int[] prefix_sum = new int[n];
+		int [] frequency= new int [k]; // frequency array should be of size k
+		System.out.println("frequency --> "+Arrays.toString(frequency)); 
+		
+		prefix_sum[0]=input[0];
+		for (int i = 1; i < n; i++) {
+			prefix_sum[i] = prefix_sum[i-1] + input[i];
+		}
+		
+		System.out.println("prefix sum array --> " + Arrays.toString(prefix_sum));
+		
+		for(int i=1;i<n;i++) {
+			int remainder=prefix_sum[i]%k;
+			if(frequency[remainder] > 0) { // i> 0 because sub array has to at-least 2  
+				return true;
+			}else {
+				/**
+				 * sub-array range [i,j] will be divisible by k  only if (prefix[i-1]- prefix[j]) %k =0 
+				 * In other words prefix[i-1]%k = prefix[j] %k
+				 * Hence we're storing the remainder flag at i-1 
+				 */
+				frequency[prefix_sum[i-1]%k] +=1;
+			}
+			
+			System.out.println("frequency --> "+Arrays.toString(frequency));
+		}
+		
+		System.out.println("frequency --> "+Arrays.toString(frequency));
+		
+		return false;
+
+	}
 
 	private int [] findRangeOfSubarrayIfExists(int[] input, int n, int k) {
 		int [] remainders=getRemainderOfPrefixSum(input,n, k);
@@ -101,9 +135,12 @@ public class ContinuousSubarraySum {
 		//int[] arr = { 23, 2, 6, 4, 7 };int k = 13;
 		System.out.println("Input array --> "+Arrays.toString(arr));
 		ContinuousSubarraySum sol = new ContinuousSubarraySum();
+		
 		System.out.println("doesSubarrayExists --> " + sol.doesSubarrayExists(arr, arr.length, k));
-		System.out.println("Matched sub array start and end element --> " + Arrays.toString(sol.findRangeOfSubarrayIfExists(arr, arr.length, k)));
-
+		System.out.println("Matched sub array start and end element --> "
+				+ Arrays.toString(sol.findRangeOfSubarrayIfExists(arr, arr.length, k)));
+		 
+		System.out.println("doesSubarrayExistsWithoutHashmap --> " + sol.doesSubarrayExistsWithoutHashmap(arr, arr.length, k));
 	}
 
 }

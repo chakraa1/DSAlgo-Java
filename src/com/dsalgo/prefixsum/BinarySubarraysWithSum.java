@@ -34,7 +34,7 @@ import com.dsalgo.binarysearch.MissingNumberInConsecutiveNumbers;
  * 
  * */
 public class BinarySubarraysWithSum {
-	private int findFrequencySubarrayWithSum(int[] input,int n, int goal) {
+	private int findSubarrayCountForGivenSum(int[] input,int n, int goal) {
 		Map<Integer, Integer> psumFrequencyMap = new HashMap<Integer, Integer>();
 		
 		// Prefix sum
@@ -73,7 +73,7 @@ public class BinarySubarraysWithSum {
 		int arr[] = { 1,0,1,0,1 }; int goal=2;
 		System.out.println("Input sequence  --> "+ Arrays.toString(arr));
 		BinarySubarraysWithSum soln = new BinarySubarraysWithSum();
-		System.out.println("Solution approach "+soln.findFrequencySubarrayWithSum(arr, arr.length, goal));
+		System.out.println("Solution approach "+soln.findSubarrayCountForGivenSum(arr, arr.length, goal));
 		
 	}
 

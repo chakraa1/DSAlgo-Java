@@ -114,25 +114,74 @@ public class BinarySubarraysWithSum {
 
 	}
 	
-	/*
-	 * private int findSubarrayCountForGivenSum2(int[] input,int n, int goal) { int
-	 * []frequency= new int[n]; int []psum= new int[n];
-	 * 
-	 * for(int i=0;i<n;i++) { frequency[i]=0; }
-	 * 
-	 * for(int i=0;i<n;i++) { psum[i] +=input[i]; }
-	 * 
-	 * int ans = 0;
-	 * 
-	 * for (int i = 0; i < n; i++) { ans += frequency[psum[i]-goal];
-	 * frequency[psum[i]-goal]++; }
-	 * 
-	 * 
-	 * 
-	 * return ans;
-	 * 
-	 * }
-	 */
+	
+	private int findSubarrayCountForGivenSumWithoutHashMap(int[] input, int n, int goal) {
+		int[] frequency = new int[n];
+		int[] psum = new int[n];
+		
+		System.out.println("input array "+Arrays.toString(input));
+
+		for (int i = 0; i < n; i++) {
+			frequency[i] = 0;
+		}
+		
+		psum[0]=input[0];
+		for (int i = 1; i < n; i++) {
+			psum[i] = psum[i-1]+input[i];
+		}
+		
+		System.out.println("psum array "+Arrays.toString(psum));
+		
+		int ans = 0;
+
+		for (int i = 0; i < n; i++) {
+			if((psum[i] - goal) >=0) {
+				ans += frequency[psum[i] - goal];
+				frequency[psum[i] - goal]++;
+			}
+		}
+		
+		System.out.println("frequency array "+Arrays.toString(frequency));
+
+		return ans;
+
+	}
+	
+	private int findSubarrayCountOptimized(int[] input, int n, int goal) {
+		int[] frequency = new int[n+1];
+		int[] psum = new int[n];
+		
+		System.out.println("input array "+Arrays.toString(input));
+
+		for (int i = 0; i < n; i++) {
+			frequency[i] = 0;
+		}
+		
+		psum[0]=input[0];
+		for (int i = 1; i < n; i++) {
+			psum[i] = psum[i-1]+input[i];
+		}
+		
+		System.out.println("psum array "+Arrays.toString(psum));
+		
+		int ans = 0;
+
+		for (int i = 0; i < n; i++) {
+			if(psum[i] == goal) ans++;
+			
+			if((psum[i] - goal) >=0) {
+				ans += frequency[psum[i] - goal];
+			}
+			
+            frequency[psum[i]]++;
+		}
+		
+		System.out.println("frequency array "+Arrays.toString(frequency));
+
+		return ans;
+
+	}
+	 
 	public static void main(String[] args) {
 		//int arr[] = { 1,0,1,0,1 }; int goal=2;
 		int arr[] = { 0, 1, 0, 1, 0, 1 }; int goal=2;
@@ -140,7 +189,8 @@ public class BinarySubarraysWithSum {
 		System.out.println("Input sequence  --> "+ Arrays.toString(arr));
 		BinarySubarraysWithSum soln = new BinarySubarraysWithSum();
 		System.out.println("Number of sub-arrays "+soln.findSubarrayCountForGivenSum(arr, arr.length, goal));
-		//System.out.println("Number of sub-arrays2 "+soln.findSubarrayCountForGivenSum2(arr, arr.length, goal));
+		System.out.println("Number of sub-arrays (without hashmap) "+soln.findSubarrayCountForGivenSumWithoutHashMap(arr, arr.length, goal));
+		System.out.println("Number of sub-arrays (optimized) "+soln.findSubarrayCountOptimized(arr, arr.length, goal));
 
 		
 	}

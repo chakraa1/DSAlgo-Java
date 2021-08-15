@@ -51,12 +51,12 @@ public class MaxConsecutiveOnesIII {
 		 */
 		
 		//int nums[] = { 1,1,1,0,0,0,1,1,1,1,0};int k=2;
-		int nums[] = { 0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1 };int k=3;
+		//int nums[] = { 0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1 };int k=3;
 		//int nums[] = { 0,0,0,1};int k=4;
 		//int nums[]={1,1,1,0,0,0,1,1,1,1};int k=0;
 		//int nums[]={0,0,1,1,1,0,0,1,1,1,1};int k=0;
 		//int nums[]={0,0,1,1,1,0,0};int k=0;
-		//int nums[]= {1,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,1,1,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,0,0,1,1,0,1,1};int k=8;
+		int nums[]= {1,0,0,0,1,1,0,0,1,1,0,0,0,0,0,0,1,1,1,1,0,1,0,1,1,1,1,1,1,0,1,0,1,0,0,1,1,0,1,1};int k=8;
 		
 		System.out.println("Input numbers  --> "+ Arrays.toString(nums) +" window size "+k);
 		MaxConsecutiveOnesIII soln = new MaxConsecutiveOnesIII();
